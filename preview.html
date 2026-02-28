@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宠友行 (PetPal) - 预览版</title>
+    <style>
+        :root {
+            --primary-color: #FFD966; /* 暖黄色 */
+            --secondary-color: #FFB7B2; /* 淡粉色 */
+            --bg-color: #FFFDF5; /* 米白色背景 */
+            --text-color: #4A4A4A;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            overflow-x: auto;
+            max-width: 1200px;
+        }
+
+        .phone-mockup {
+            width: 375px;
+            height: 812px;
+            background-color: var(--bg-color);
+            border-radius: 40px;
+            border: 8px solid #333;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .status-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* 方案 1: Map-Centric */
+        .option-1 .map-container {
+            height: 100%;
+            background-color: #E6F7FF;
+            position: relative;
+        }
+        
+        .pet-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            position: absolute;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            background-size: cover;
+            animation: bounce 2s infinite;
+        }
+
+        .radar-scan {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 217, 102, 0.5);
+            animation: radar-pulse 2s infinite;
+        }
+
+        .action-button-large {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFD966, #FFB7B2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 16px rgba(255, 183, 178, 0.4);
+            font-size: 32px;
+            color: white;
+            z-index: 10;
+        }
+
+        /* 方案 2: Feed-Centric */
+        .option-2 .feed-header {
+            padding: 20px;
+        }
+        .option-2 h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .option-2 .card-stack {
+            padding: 20px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .pet-card {
+            background: white;
+            border-radius: 24px;
+            padding: 16px;
+            box-shadow: var(--card-shadow);
+        }
+        .pet-image {
+            width: 100%;
+            height: 200px;
+            background-color: #eee;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* 方案 3: Hybrid */
+        .option-3 .split-map {
+            height: 40%;
+            background-color: #E6F7FF;
+            position: relative;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+        }
+        .option-3 .list-container {
+            height: 60%;
+            padding: 20px;
+            background: var(--bg-color);
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        /* 动画 */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes radar-pulse {
+            0% { width: 0; height: 0; opacity: 0.8; }
+            100% { width: 300px; height: 300px; opacity: 0; }
+        }
+
+        .label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 方案 1 -->
+        <div class="phone-mockup option-1">
+            <div class="label">方案 1: 沉浸式雷达 (Map-Centric)</div>
+            <div class="status-bar">
+                <span>9:41</span>
+                <span>📶 🔋</span>
+            </div>
+            <div class="map-container">
+                <div class="radar-scan"></div>
+                <!-- 模拟头像 -->
+                <div class="pet-avatar" style="top: 30%; left: 40%; background-image: url('https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100');"></div>
+                <div class="pet-avatar" style="top: 60%; left: 70%; background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=100'); animation-delay: 0.5s;"></div>
+                <div class="pet-avatar" style="top: 45%; left: 20%; background-image: url('https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=100'); animation-delay: 1s;"></div>
+                
+                <div class="action-button-large">🐾</div>
+            </div>
+        </div>
+
+        <!-- 方案 2 -->
+        <div class="phone-mockup option-2">
+            <div class="label">方案 2: 卡片流浏览 (Feed-Centric)</div>
+            <div class="status-bar">
+                <span>9:41</span>
+                <span>📶 🔋</span>
+            </div>
+            <div class="feed-header">
+                <h1>附近宠友 🐶</h1>
+                <p style="color: #999; font-size: 12px;">3km 内有 12 只狗狗正在遛弯</p>
+            </div>
+            <div class="card-stack">
+                <div class="pet-card">
+                    <div class="pet-image" style="background-image: url('https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400');"></div>
+                    <div style="font-weight: bold; font-size: 18px;">旺财 <span style="font-size: 12px; background: #FFD966; padding: 2px 6px; border-radius: 8px;">金毛</span></div>
+                    <div style="color: #666; font-size: 13px; margin-top: 4px;">📍 距你 0.5km · 刚刚活跃</div>
+                </div>
+                <div class="pet-card" style="transform: scale(0.95) translateY(-10px); opacity: 0.7;">
+                    <div class="pet-image" style="background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400');"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 方案 3 -->
+        <div class="phone-mockup option-3">
+            <div class="label">方案 3: 混合视图 (Hybrid)</div>
+            <div class="status-bar">
+                <span>9:41</span>
+                <span>📶 🔋</span>
+            </div>
+            <div class="split-map">
+                <div class="pet-avatar" style="top: 40%; left: 50%; background-image: url('https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100');"></div>
+            </div>
+            <div class="list-container">
+                <h3 style="margin-top: 0;">探索列表</h3>
+                <div class="list-item">
+                    <div class="pet-avatar" style="position: relative; margin-right: 12px; width: 40px; height: 40px; background-image: url('https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100');"></div>
+                    <div>
+                        <div style="font-weight: bold;">旺财</div>
+                        <div style="font-size: 12px; color: #888;">金毛 · 0.5km</div>
+                    </div>
+                    <div style="margin-left: auto; font-size: 20px;">👋</div>
+                </div>
+                <div class="list-item">
+                    <div class="pet-avatar" style="position: relative; margin-right: 12px; width: 40px; height: 40px; background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=100');"></div>
+                    <div>
+                        <div style="font-weight: bold;">Momo</div>
+                        <div style="font-size: 12px; color: #888;">柯基 · 0.8km</div>
+                    </div>
+                    <div style="margin-left: auto; font-size: 20px;">👋</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
